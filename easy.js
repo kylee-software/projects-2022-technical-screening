@@ -31,8 +31,31 @@ var assert = require("assert")
 // Explanation: Empty array...
 
 const altNumbers = (numArray) => {
-    // TODO: COMPLETE THIS FUNCTION
-    return [];
+    if (numArray.length === 0) return [];
+    let positives = numArray.filter(num => num >= 0);
+    let negatives = numArray.filter(num => num < 0);
+    // Determine which sign to start
+    const startPos = positives.length >= negatives.length;
+    const minLength = (positives.length <= negatives.length) ? positives.length : negatives.length;
+    let ans = [];
+
+    for (let i = 0; i < minLength; i++) {
+        if (startPos) {
+            ans.push(positives.shift());
+            ans.push(negatives.shift());
+        } else {
+            ans.push(negatives.shift());
+            ans.push(positives.shift());
+        }
+    }
+
+    if (startPos && positives.length > 0) {
+        ans.push(positives.shift());
+    } else if (!startPos && negatives.length > 0) {
+        ans.push(negatives.shift());
+    }
+
+    return ans;
 }
 
 module.exports = { altNumbers } // Do not modify this line
